@@ -41,3 +41,86 @@ One simple use case is a boolean that manages the display of a given DOM element
     );
 
 
+### useClock
+
+    const [clock] = useClock(interval)
+
+This hooks provides a clock value which updates according to the time interval specified in parameter.
+
+`interval` defines the update interval in ms, defaults to 1000.
+
+`clock` Time value in ms.
+
+
+#### example
+
+One simple use case is to display the local time.
+
+    const [clock] = useClock();
+    
+    return (
+        <div>
+            {new Date(clock).toLocaleString()}
+            // use whichever formatter you like
+        </div>
+    );
+
+### useTimer
+
+    const [timer, start, stop, clear] = useTimer(interval)
+
+This hooks provides an abstraction layer to manage a timer.
+
+`interval` defined the update interval in ms, defaults to 1000.
+
+`timer` the timer value in ms.
+
+`start` starts the timer.
+
+`stop` clears the timer setInterval, without resetting timer to 0. 
+Can be resumed by using start.
+
+`clear` clears the timer setInterval and reset timer value to 0.
+Can be restarted by using start.
+
+#### example
+
+    const [timer, start, stop, clear] = useClock();
+    
+    return (
+        <div>
+            {timer}
+            <button onClick={start}>Start</button>
+            <button onClick={stop}>Stop</button>
+            <button onClick={clear}>Clear</button>
+        </div>
+    );
+
+### useAsync
+
+    const [data, isLoading, error, fetch] = useAsync(asyncFn, autoFetch);
+
+`asyncFn` the asynchronous function to be executed.
+Needs to return an object with data property on success.
+Needs to return an object with error property on error.
+
+`autoFetch` if true asyncFn will be triggered on component mount.
+Defaults to true.
+
+`data` data returned by the execution of the asynchronous function.
+
+`isLoading` boolean value, true when asynchronous method is being executed, else fale.
+
+`fetch` function to trigger the asynchronous function and update data, isLoading, and error accordingly.
+
+#### example
+
+    const [data, isLoading, error, fetch] = useAsync(someAsyncFn);
+    
+    return (
+        <div>
+            {isLoading && <Loader />}
+            {!isLoading && <div>{data}</div>}
+            {!isLoading && <div>{error}</div>}
+        </div>
+    );
