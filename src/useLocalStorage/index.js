@@ -7,7 +7,7 @@ const useLocalStorage = (key, init) => {
     useEffect(() => {
         const persistedValue = localStorage.getItem(key);
         if (persistedValue !== undefined) {
-            setValue(persistedValue);
+            setValue(JSON.parse(persistedValue));
         }
 
         const listener = (e) => {
@@ -27,7 +27,7 @@ const useLocalStorage = (key, init) => {
 
     useEffect(() => {
         if (mounted) {
-            localStorage.setItem(key, value);
+            localStorage.setItem(key, JSON.stringify(value));
             const event = new Event('storage');
             event.key = key;
             event.newValue = value;
