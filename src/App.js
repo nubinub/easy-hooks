@@ -4,6 +4,7 @@ import useToggle from './useToggle';
 import useClock from './useClock';
 import useTimer from './useTimer';
 import useAsync from './useAsync';
+import useLocalStorage from './useLocalStorage';
 
 const loadData = async () => {
   const promise = new Promise((resolve) => {
@@ -20,6 +21,8 @@ const App = () => {
   const [clock] = useClock();
   const [timer, start, stop, clear] = useTimer(100);
   const [data, isLoading, error, fetch] = useAsync(loadData);
+  const [storeValue, setStoreValue] = useLocalStorage('key', 'abc');
+  const [anotherStoreValue] = useLocalStorage('key');
   return (
     <div className="App">
       <div className="hook">
@@ -44,7 +47,12 @@ const App = () => {
         {data || error}
         {isLoading && <span>Loading...</span>}
       </div>
-
+      <div className="hook">
+        <h1>useLocalStorage</h1>
+        <div>value: {storeValue}</div>
+        <div>another value with same storage key: {anotherStoreValue}</div>
+        <button onClick={() => setStoreValue(Math.random())}>Random</button>
+      </div>
     </div>
   );
 }

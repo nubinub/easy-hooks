@@ -124,3 +124,30 @@ Defaults to true.
             {!isLoading && <div>{error}</div>}
         </div>
     );
+
+### useLocalStorage
+
+This hooks provides a value and a setter and ensures that this value is persisted in the localStorage for the given key.
+On localStorage update, the value is automatically updated.
+
+    const [value, setValue] = useLocalStorage(key, init);
+
+`key` used as localStorage key.
+
+`init` if localStorage value is not defined, initial value will be set to init and persisted.
+
+`value` value linked to the localStorage.
+
+`setValue` setter for the value, triggers localStorage update as well.
+
+#### example
+
+    const [value, setValue] = useLocalStorage('test', 0);
+    
+    return (
+        <div>
+            {value}
+            <button onClick={() => setValue(Math.random())}>Random</button>
+            <span>Inspect localStorage !</span>
+        </div>
+    );
