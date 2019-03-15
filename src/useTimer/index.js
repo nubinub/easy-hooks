@@ -6,7 +6,6 @@ const useTimer = (interval = 1000) => {
 
     const stop = useCallback(() => {
         if (intervalId) {
-            clearInterval(intervalId);
             setIntervalId();
         }
     }, [intervalId]);
@@ -17,16 +16,20 @@ const useTimer = (interval = 1000) => {
     }, [stop]);
 
     const start = useCallback(() => {
-        stop();
-        const id = setInterval(() => {
-            setTimer((timer) => timer + interval);
-        }, interval);
-        setIntervalId(id);
-    }, [stop]);
+        if (!intervalId) {
+            stop();
+            const id = setInterval(() => {
+                setTimer((timer) => timer + interval);
+            }, interval);
+            setIntervalId(id);
+        }
+    }, [stop, interval, intervalId]);
 
     useEffect(() => {
         return () => {
-            clearInterval(intervalId);
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
         };
     }, [intervalId])
 
