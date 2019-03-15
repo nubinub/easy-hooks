@@ -1,11 +1,10 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 
 const useAsync = (asyncFn, autoFetch = false) => {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState();
     const [error, setError] = useState();
-
-    const fetch = async() => {
+    const fetch = useCallback(async () => {
         setIsLoading(true);
         setError();
         setData();
@@ -13,7 +12,7 @@ const useAsync = (asyncFn, autoFetch = false) => {
         setData(data);
         setError(error);
         setIsLoading(false);
-    };
+    }, []);
 
     useEffect(() => {
         if (autoFetch) {

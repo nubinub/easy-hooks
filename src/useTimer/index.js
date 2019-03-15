@@ -1,32 +1,34 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 
 const useTimer = (interval = 1000) => {
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState();
 
-    const stop = () => {
+    const stop = useCallback(() => {
         if (intervalId) {
             clearInterval(intervalId);
             setIntervalId();
         }
-    };
+    }, [intervalId]);
 
-    const clear = () => {
+    const clear = useCallback(() => {
         stop();
         setTimer(0);
-    };
-    
-    const start = () => {
+    }, [stop]);
+
+    const start = useCallback(() => {
         stop();
         const id = setInterval(() => {
             setTimer((timer) => timer + interval);
         }, interval);
         setIntervalId(id);
-    };
+    }, [stop]);
 
     useEffect(() => {
-        return clear;
-    }, [])
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalId])
 
     return [timer, start, stop, clear];
 };

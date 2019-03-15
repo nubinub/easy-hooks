@@ -1,15 +1,15 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 
 const useLocalStorage = (key, init) => {
     const [value, setValue] = useState(init);
 
-    const updateValue = (newValue) => {
+    const updateValue = useCallback((newValue) => {
         localStorage.setItem(key, JSON.stringify(newValue));
         const event = new Event('storage');
         event.key = key;
         event.newValue = newValue;
         window.dispatchEvent(event);
-    };
+    }, []);
 
     useEffect(() => {
         const persistedValue = localStorage.getItem(key);
@@ -29,8 +29,6 @@ const useLocalStorage = (key, init) => {
             window.removeEventListener('storage', listener);
         };
     }, []);
-
-   
 
     return [value, updateValue];
 };
