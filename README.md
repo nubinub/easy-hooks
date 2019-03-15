@@ -85,7 +85,7 @@ Can be restarted by using start.
 
 #### example
 
-    const [timer, start, stop, clear] = useClock();
+    const [timer, start, stop, clear] = useTimer();
     
     return (
         <div>
