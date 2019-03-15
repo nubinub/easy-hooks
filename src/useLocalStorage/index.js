@@ -2,7 +2,14 @@ import {useState, useEffect} from 'react';
 
 const useLocalStorage = (key, init) => {
     const [value, setValue] = useState(init);
-    const [mounted, setMounted] = useState(false);
+
+    const updateValue = (newValue) => {
+        localStorage.setItem(key, JSON.stringify(newValue));
+        const event = new Event('storage');
+        event.key = key;
+        event.newValue = newValue;
+        window.dispatchEvent(event);
+    };
 
     useEffect(() => {
         const persistedValue = localStorage.getItem(key);
@@ -12,30 +19,20 @@ const useLocalStorage = (key, init) => {
 
         const listener = (e) => {
             if (e.key === key) {
-                setValue(e.newValue);
+                setValue(JSON.parse(e.newValue));
             } 
         };
 
         window.addEventListener('storage', listener, true);
-
-        setMounted(true);
 
         return () => {
             window.removeEventListener('storage', listener);
         };
     }, []);
 
-    useEffect(() => {
-        if (mounted) {
-            localStorage.setItem(key, JSON.stringify(value));
-            const event = new Event('storage');
-            event.key = key;
-            event.newValue = value;
-            window.dispatchEvent(event);
-        }
-    }, [value]);
+   
 
-    return [value, setValue];
+    return [value, updateValue];
 };
 
 export default useLocalStorage;
