@@ -22,7 +22,7 @@ const App = () => {
   const [timer, start, stop, clear] = useTimer(100);
   const [data, isLoading, error, fetch] = useAsync(loadData);
   const [storeValue, setStoreValue] = useLocalStorage('key', 'abc');
-  const [anotherStoreValue] = useLocalStorage('key');
+  const [anotherStoreValue] = useLocalStorage('key', 'abc');
   return (
     <div className="App">
       <div className="hook">
