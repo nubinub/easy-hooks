@@ -7,6 +7,7 @@ const useTimer = (interval = 1000) => {
     const stop = useCallback(() => {
         if (intervalId) {
             setIntervalId();
+            clearInterval(intervalId);
         }
     }, [intervalId]);
 
