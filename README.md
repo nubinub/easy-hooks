@@ -151,3 +151,33 @@ On localStorage update, the value is automatically updated.
             <span>Inspect localStorage !</span>
         </div>
     );
+
+
+### useStack
+
+This hooks provides a state managed stack with the accessing methods.
+
+    const {stack, push, pop, empty} = useStack();
+
+`stack` array which holds the stack values.
+
+`push` function to add an element to the stack.
+
+`pop` function which removes and returns the last element from the stack.
+
+`empty` function which removes all elements from the stack.
+
+#### example
+
+    const {stack, push, pop, empty} = useStack();
+    
+    return (
+        <div>
+            <button onClick={() => push(Math.random())}>push</button>
+            <button onClick={() => pop()}>pop</button>
+            <button onClick={() => empty()}>empty</button>
+            <ul>
+                {stack.map((elem) => (<li>{elem}</li>))}
+            </ul>
+        </div>
+    );

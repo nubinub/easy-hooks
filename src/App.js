@@ -5,6 +5,7 @@ import useClock from './useClock';
 import useTimer from './useTimer';
 import useAsync from './useAsync';
 import useLocalStorage from './useLocalStorage';
+import useStack from './useStack';
 
 const loadData = async () => {
   const promise = new Promise((resolve) => {
@@ -23,6 +24,7 @@ const App = () => {
   const [data, isLoading, error, fetch] = useAsync(loadData);
   const [storeValue, setStoreValue] = useLocalStorage('key', 'abc');
   const [anotherStoreValue] = useLocalStorage('key', 'abc');
+  const {stack, push, pop, empty} = useStack();
   return (
     <div className="App">
       <div className="hook">
@@ -52,6 +54,15 @@ const App = () => {
         <div>value: {storeValue}</div>
         <div>another value with same storage key: {anotherStoreValue}</div>
         <button onClick={() => setStoreValue(Math.random())}>Random</button>
+      </div>
+      <div className="hook">
+        <h1>useStack</h1>
+        <button onClick={() => push(Math.random())}>Push</button>
+        <button onClick={() => pop()}>Pop</button>
+        <button onClick={() => empty()}>empty</button>
+        <ul className="stack-elem">
+          {stack.map((e, i) => (<li key={i}>{e}</li>))}
+        </ul>
       </div>
     </div>
   );

@@ -2,3 +2,11 @@
   text-align: left;
 }
 
+ul.stack-elem li {
+  display: inline-block;
+  margin-right: 3px;
+}
+
+ul.stack-elem li::after {
+  content:',';
+}
